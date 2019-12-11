@@ -1,0 +1,11 @@
+Package: DTrsiv
+Type: Package
+Title: Collection of R data.table functions to easily clean data
+Version: 0.0.1
+Author: Yoann Pageaud
+Maintainer: Yoann Pageaud <y.pageaud@dkfz.de>
+Description: 
+License: GPL-3.0
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.0.2
