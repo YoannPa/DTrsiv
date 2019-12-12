@@ -10,7 +10,10 @@ dt.ls2c(DT, column.names = NULL)
 \item{DT}{A \code{data.table}.}
 
 \item{column.names}{A \code{character} vector containing column names you
-want to convert from list type to vectors.}
+want to convert from list type to vectors.
+If no column names are specified, the function read
+through the entire data.table
+(Default: column.names = NULL).}
 }
 \value{
 A \code{data.table}.

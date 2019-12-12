@@ -1,7 +1,7 @@
 ##FUNCTIONS
 
 #' In-place pattern matching and replacement in a data.table.
-#' 
+#'
 #' @param DT          A \code{data.table}.
 #' @param pattern     A \code{character} string containing a regular expression
 #'                    (or character string for fixed = TRUE) to be matched in
@@ -62,10 +62,13 @@ dt.sub<-function(DT, pattern, replacement, ignore.case = FALSE, perl = FALSE,
 
 
 #' Replaces data.table columns of type list to a column of type vector.
-#' 
+#'
 #' @param DT           A \code{data.table}.
 #' @param column.names A \code{character} vector containing column names you
 #'                     want to convert from list type to vectors.
+#'                     If no column names are specified, the function read
+#'                     through the entire data.table
+#'                     (Default: column.names = NULL).
 #' @return A \code{data.table}.
 #' @author Yoann Pageaud.
 #' @export
@@ -80,14 +83,14 @@ dt.ls2c<-function(DT, column.names=NULL){
     if(is.null(column.names)){
       DT[, names(DT) := lapply(X = .SD, FUN = unlist)]
     } else {
-      DT[,(column.names) := lapply(X = .SD, FUN = unlist), .SDcols=column.names] 
-    }  
+      DT[,(column.names) := lapply(X = .SD, FUN = unlist), .SDcols=column.names]
+    }
   }
 }
 
 
 #' Removes duplicated column content in a data.table.
-#' 
+#'
 #' @param DT A \code{data.table}.
 #' @param ignore A \code{character} or \code{integer} vector specifying columns
 #'               that should be ignored during duplication removal.
@@ -109,11 +112,14 @@ dt.rm.dup<-function(DT, ignore=NULL){
 
 
 #' Converts columns of 'double.integer64' type into 'character' type.
-#' 
+#'
 #' @param DT           A \code{data.table}.
 #' @param column.names A \code{character} vector containing column names you
 #'                     want to convert from 'double.integer64' type to
 #'                     'character'.
+#'                     If no column names are specified, the function read
+#'                     through the entire data.table
+#'                     (Default: column.names = NULL).
 #' @return A \code{data.table}.
 #' @author Yoann Pageaud.
 #' @export
@@ -130,22 +136,22 @@ dt.int64tochar<-function(DT, column.names=NULL){
     } else {
       DT[,(column.names) := lapply(X = .SD, FUN = function(i){
         if(typeof(i) == "double"){ as.character(as.numeric(i)) } else { i } }),
-        .SDcols=column.names] 
-    }  
+        .SDcols=column.names]
+    }
   }
 }
 
 
 #' Combines information using duplicated colnames of a data.table resulting from
-#' merge(). 
-#' 
+#' merge().
+#'
 #' @param DT A \code{data.table} resulting from a merge() operation. Partially
 #'           duplicated columns (some values are duplicated at some position of
 #'           columns, while at other positions NA values are present in only one
 #'           of the columns) are automatically detected using their colnames
 #'           suffixes '.x' and '.y', and combined into new columns (thus
 #'           reducing the amount of missing values). original duplicated columns
-#'           are then removed. 
+#'           are then removed.
 #' @return A \code{data.table} with duplicated columns removed, and resulting
 #'         combined columns appended on the right.
 #' @author Yoann Pageaud.
@@ -156,7 +162,7 @@ dt.int64tochar<-function(DT, column.names=NULL){
 dt.combine<-function(DT){
   cnames<-strsplit(x = names(DT), split = "\\.[xy]")
   dupcol<-unique(cnames[duplicated(cnames) | duplicated(cnames, fromLast=TRUE)])
-  
+
   invisible(lapply(X = dupcol, FUN = function(i){
     DT.comp<-DT[,names(DT)[grepl(pattern = i, x = names(DT))], with=FALSE]
     #Add index col

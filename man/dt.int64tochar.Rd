@@ -11,7 +11,10 @@ dt.int64tochar(DT, column.names = NULL)
 
 \item{column.names}{A \code{character} vector containing column names you
 want to convert from 'double.integer64' type to
-'character'.}
+'character'.
+If no column names are specified, the function read
+through the entire data.table
+(Default: column.names = NULL).}
 }
 \value{
 A \code{data.table}.
