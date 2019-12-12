@@ -20,7 +20,6 @@ devtools::install()
 
 Load data.table and DTrsiv packages:
 ```R
-library(data.table)
 library(DTrsiv)
 ```
 
