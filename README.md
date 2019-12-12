@@ -3,7 +3,7 @@ DTrsiv is a R package containing a collection of R data.table functions availabl
 **Everyone who wants is welcome to contribute!** Currently the package is available to DKFZ data enthousiast biologists and bioinformaticians.  
 
 **Author: PAGEAUD Y.<sup>1</sup>**  
-**Contributors:**Everyone who wants is welcome to contribute!   
+**Contributors:** Everyone who wants is welcome to contribute!   
 **1-** [**DKFZ - Division of Applied Bioinformatics, Germany.**](https://www.dkfz.de/en/applied-bioinformatics/index.php)  
 
 **Version: 0.0.06 (Beta)**  
@@ -46,7 +46,7 @@ The DTrsiv functions should be available in your environment.
 ## Problems ? / I need help !
 For any questions **not related to bugs or development** you can write me at [y.pageaud@dkfz.de](y.pageaud@dkfz.de).
  
-## Technical question / Development / Feature request
+## Technical questions / Development / Feature request
 If you encounters issues or a feature you would expect is not part of DTrsiv functions available, please go to the [DTrsiv Github repository](https://github.com/YoannPa/DTrsiv) click on the tab **Issues** and create an issue.  
 
 ## References
