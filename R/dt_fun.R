@@ -96,7 +96,7 @@ dt.ls2c<-function(DT, column.names=NULL){
 }
 
 
-#' Removes duplicated column content in a data.table in-place.
+#' Removes duplicated column content in a data.table.
 #'
 #' @param DT A \code{data.table}.
 #' @param ignore A \code{character} or \code{integer} vector specifying columns
