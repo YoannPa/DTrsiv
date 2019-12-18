@@ -2,7 +2,7 @@
 % Please edit documentation in R/dt_fun.R
 \name{dt.int64tochar}
 \alias{dt.int64tochar}
-\title{Converts columns of 'double.integer64' type into 'character' type.}
+\title{Converts columns of 'double.integer64' type into 'character' type in-place.}
 \usage{
 dt.int64tochar(DT, column.names = NULL)
 }
@@ -20,7 +20,7 @@ through the entire data.table
 A \code{data.table}.
 }
 \description{
-Converts columns of 'double.integer64' type into 'character' type.
+Converts columns of 'double.integer64' type into 'character' type in-place.
 }
 \references{
 

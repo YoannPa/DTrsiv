@@ -30,6 +30,8 @@
 #' @author Yoann Pageaud.
 #' @export
 #' @examples
+#' dtbl<-data.table(col1 = rev(seq(16)), col2=rep(x = c("hello", "world"), 8))
+#' dt.sub(DT = dtbl, pattern = "hello", replacement = "goodbye")
 #' @references
 
 dt.sub<-function(DT, pattern, replacement, ignore.case = FALSE, perl = FALSE,
@@ -61,7 +63,7 @@ dt.sub<-function(DT, pattern, replacement, ignore.case = FALSE, perl = FALSE,
 }
 
 
-#' Replaces data.table columns of type list to a column of type vector.
+#' Replaces data.table columns of type list to a column of type vector in-place.
 #'
 #' @param DT           A \code{data.table}.
 #' @param column.names A \code{character} vector containing column names you
@@ -73,6 +75,11 @@ dt.sub<-function(DT, pattern, replacement, ignore.case = FALSE, perl = FALSE,
 #' @author Yoann Pageaud.
 #' @export
 #' @examples
+#' dtbl<-data.table(
+#'   col1 = rev(seq(16)),
+#'   col2=as.list(rep(x = c("hello", "world"), 8))) #'col2' is of type 'list'.
+#' dt.ls2c(DT = dtbl) #All columns of type 'list' are converted into vectors.
+#' dt.ls2c(DT = dtbl, column.names = "col2") #Only 'col2' is converted into a vector.
 #' @references
 
 dt.ls2c<-function(DT, column.names=NULL){
@@ -89,7 +96,7 @@ dt.ls2c<-function(DT, column.names=NULL){
 }
 
 
-#' Removes duplicated column content in a data.table.
+#' Removes duplicated column content in a data.table in-place.
 #'
 #' @param DT A \code{data.table}.
 #' @param ignore A \code{character} or \code{integer} vector specifying columns
@@ -98,6 +105,12 @@ dt.ls2c<-function(DT, column.names=NULL){
 #' @author Yoann Pageaud.
 #' @export
 #' @examples
+#' dtbl<-data.table(
+#'   col1 = rep(x = c("hello", "world"), 8),
+#'   col2 = rep(x = c("hello", "world"), 8)) #'col2' is a duplicate of 'col1'.
+#' dt.rm.dup(DT = dtbl) #Only 'col1' remains.
+#' #You can ignore specific columns that will not be remove if duplicated:
+#' dt.rm.dup(DT = dtbl,ignore = "col2")
 #' @references
 
 dt.rm.dup<-function(DT, ignore=NULL){
@@ -111,7 +124,7 @@ dt.rm.dup<-function(DT, ignore=NULL){
 }
 
 
-#' Converts columns of 'double.integer64' type into 'character' type.
+#' Converts columns of 'double.integer64' type into 'character' type in-place.
 #'
 #' @param DT           A \code{data.table}.
 #' @param column.names A \code{character} vector containing column names you
@@ -157,13 +170,23 @@ dt.int64tochar<-function(DT, column.names=NULL){
 #' @author Yoann Pageaud.
 #' @export
 #' @examples
+#' dtbl1<-data.table(col1 = rev(seq(16)),
+#'                   col2=c(rep(x = c("hello", "world"), 4), rep(NA, 8)))
+#' dtbl2<-data.table(col1 = rev(seq(16)), col2=rep(x = c("hello", "world"), 8))
+#' #'dtbl1' is missing values in 'col2'.
+#'
+#' dtbl.mrg<-merge(x = dtbl1, y = dtbl2, by = "col1")
+#' #The colname of the 2nd column of 'dtbl1' and 'dtbl2' is the same.
+#' #merge() appends '.x' and '.y' respectively to 'col2' in 'dtbl1' and 'dtbl2'.
+#' #Is 'col2.y' partially duplicated from 'col2.x'?
+#' dt.combine(dtbl.mrg) #Yes! 'col2.x' and 'col2.y' combined into 'col2'.
 #' @references
 
 dt.combine<-function(DT){
   cnames<-strsplit(x = names(DT), split = "\\.[xy]")
   dupcol<-unique(cnames[duplicated(cnames) | duplicated(cnames, fromLast=TRUE)])
 
-  invisible(lapply(X = dupcol, FUN = function(i){
+  ls.dt<-lapply(X = dupcol, FUN = function(i){
     DT.comp<-DT[,names(DT)[grepl(pattern = i, x = names(DT))], with=FALSE]
     #Add index col
     DT.comp<-cbind(idx.row = seq(nrow(DT.comp)), DT.comp)
@@ -173,16 +196,25 @@ dt.combine<-function(DT){
        ncol(DT.comp)-2){
       #Get rows containing at least one NA
       DT.na<-DT.comp[!complete.cases(DT.comp)]
-      res<-strsplit(x = DT.na[, do.call(what=paste, DT.na[,-1,])],split = " NA")
-      if(unique(lapply(res, length))==1){
+      #Remove NAs with leading and trailing whitespaces
+      res<-trimws(
+        gsub(pattern = "[^a-zA-Z0-9]*NA[^a-zA-Z0-9]*", replacement = " ",
+             x = DT.na[, do.call(what=paste, DT.na[,-1,])]))
+      #Split non-NA values if any
+      res<-strsplit(x = res, split = " ")
+      #Check if value unique for each row, and length of unique value is 1 for
+      # all rows
+      is.unique <- lapply(X = res, FUN = unique)
+      if(unique(lapply(X = is.unique, FUN = length)) == 1){
         DT.new<-rbind(
-          DT.val[,c(1,2),], data.table(DT.na$idx.row, res), use.names=FALSE)
+          DT.val[,c(1,2),], data.table(DT.na$idx.row,is.unique),use.names=FALSE)
         #Re-order rows following index
         DT.new<-DT.new[order(idx.row)][,2]
         colnames(DT.new)<-i
-        DT<<-cbind(DT,DT.new)
+        DT.new
       } } else { stop("Not all partially duplicated columns are equals.") }
-  }))
+  })
+  DT.new<-do.call(cbind, ls.dt)
   colrm<-names(DT)[duplicated(cnames) | duplicated(cnames, fromLast=TRUE)]
-  return(DT[,-colrm, with=FALSE])
+  return(cbind(DT[,-colrm, with=FALSE], DT.new))
 }

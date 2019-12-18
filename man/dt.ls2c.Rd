@@ -2,7 +2,7 @@
 % Please edit documentation in R/dt_fun.R
 \name{dt.ls2c}
 \alias{dt.ls2c}
-\title{Replaces data.table columns of type list to a column of type vector.}
+\title{Replaces data.table columns of type list to a column of type vector in-place.}
 \usage{
 dt.ls2c(DT, column.names = NULL)
 }
@@ -19,7 +19,14 @@ through the entire data.table
 A \code{data.table}.
 }
 \description{
-Replaces data.table columns of type list to a column of type vector.
+Replaces data.table columns of type list to a column of type vector in-place.
+}
+\examples{
+dtbl<-data.table(
+  col1 = rev(seq(16)),
+  col2=as.list(rep(x = c("hello", "world"), 8))) #'col2' is of type 'list'.
+dt.ls2c(DT = dtbl) #All columns of type 'list' are converted into vectors.
+dt.ls2c(DT = dtbl, column.names = "col2") #Only 'col2' is converted into a vector.
 }
 \references{
 

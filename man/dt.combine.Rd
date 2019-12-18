@@ -24,6 +24,18 @@ A \code{data.table} with duplicated columns removed, and resulting
 Combines information using duplicated colnames of a data.table resulting from
 merge().
 }
+\examples{
+dtbl1<-data.table(col1 = rev(seq(16)),
+                  col2=c(rep(x = c("hello", "world"), 4), rep(NA, 8)))
+dtbl2<-data.table(col1 = rev(seq(16)), col2=rep(x = c("hello", "world"), 8))
+#'dtbl1' is missing values in 'col2'.
+
+dtbl.mrg<-merge(x = dtbl1, y = dtbl2, by = "col1")
+#The colname of the 2nd column of 'dtbl1' and 'dtbl2' is the same.
+#merge() appends '.x' and '.y' respectively to 'col2' in 'dtbl1' and 'dtbl2'.
+#Is 'col2.y' partially duplicated from 'col2.x'?
+dt.combine(dtbl.mrg) #Yes! 'col2.x' and 'col2.y' combined into 'col2'.
+}
 \references{
 
 }
