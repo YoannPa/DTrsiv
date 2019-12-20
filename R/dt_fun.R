@@ -200,14 +200,16 @@ dt.combine<-function(DT){
       res<-trimws(
         gsub(pattern = "[^a-zA-Z0-9]*NA[^a-zA-Z0-9]*", replacement = " ",
              x = DT.na[, do.call(what=paste, DT.na[,-1,])]))
+      #Replace empty strings by NAs
+      res<-sub(pattern = "^$", replacement = NA, x = res)
       #Split non-NA values if any
       res<-strsplit(x = res, split = " ")
       #Check if value unique for each row, and length of unique value is 1 for
       # all rows
       is.unique <- lapply(X = res, FUN = unique)
       if(unique(lapply(X = is.unique, FUN = length)) == 1){
-        DT.new<-rbind(
-          DT.val[,c(1,2),], data.table(DT.na$idx.row,is.unique),use.names=FALSE)
+        DT.new<-rbind(DT.val[,c(1,2),], data.table(
+          DT.na$idx.row,unlist(is.unique)),use.names=FALSE)
         #Re-order rows following index
         DT.new<-DT.new[order(idx.row)][,2]
         colnames(DT.new)<-i
