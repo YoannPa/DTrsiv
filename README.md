@@ -1,12 +1,12 @@
 # DTrsiv
 _**DTrsiv** is a R package containing a collection of R data.table functions available to quickly and easily clean your data._  
-**Everyone who wants is welcome to contribute!** Currently the package is available to DKFZ data enthousiast biologists and bioinformaticians.  
+**Everyone who wants is welcome to contribute!**
 
 **Author: PAGEAUD Y.<sup>1</sup>**  
 **Contributors:** Everyone who wants is welcome to contribute!  
 **1-** [**DKFZ - Division of Applied Bioinformatics, Germany.**](https://www.dkfz.de/en/applied-bioinformatics/index.php)  
 
-**Version: 0.0.11 (Beta)**  
+**Version: 0.0.12 (Beta)**  
 **R Compatibility: R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"**  
 **Last Update: 10/03/2020**  
 
