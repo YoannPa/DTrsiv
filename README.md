@@ -1,5 +1,6 @@
 # DTrsiv
 <img src="img/DTrsiv_hexsticker.png" align="right" height="140" />  
+
 _**DTrsiv** is a R package containing a collection of R data.table functions available to quickly and easily clean your data._  
 **Everyone who wants is welcome to contribute!**
 
