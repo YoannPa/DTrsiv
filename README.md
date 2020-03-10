@@ -6,9 +6,9 @@ _**DTrsiv** is a R package containing a collection of R data.table functions ava
 **Contributors:** Everyone who wants is welcome to contribute!  
 **1-** [**DKFZ - Division of Applied Bioinformatics, Germany.**](https://www.dkfz.de/en/applied-bioinformatics/index.php)  
 
-**Version: 0.0.8 (Beta)**  
-**R Compatibility: Version 3.6.1**  
-**Last Update: 18/12/2019**  
+**Version: 0.0.11 (Beta)**  
+**R Compatibility: R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"**  
+**Last Update: 10/03/2020**  
 
 
 ## Install
@@ -36,7 +36,7 @@ library(DTrsiv)
 The DTrsiv functions should be available in your environment.
 
 ## Content
-`dt_fun.R` is a script containing functions related to R data.table:  
+`dt_fun.R` script contains functions related to R data.table:  
 * `dt.sub()` for pattern matching and substitution applied on data.table object column-wise. It first identifies the columns containing any occurence matching the pattern and then applies the substitution considering only columns where the pattern matched, thus shortening execution time on data.table with many columns. It supports columns of type list.  
 * `dt.ls2c()` converts data.table columns of type list to a type vector.  
 * `dt.rm.dup()` removes duplicated columns based on their content (not on their names).  
@@ -44,7 +44,7 @@ The DTrsiv functions should be available in your environment.
 * `dt.combine()` combines information using duplicated colnames of a data.table resulting from merge().  
 
 ## Problems ? / I need help !
-For any questions **not related to bugs or development** you can write me at [y.pageaud@dkfz.de](y.pageaud@dkfz.de).
+For any questions **Not related to bugs or development** you can write me at [y.pageaud@dkfz.de](y.pageaud@dkfz.de).
  
 ## Technical questions / Development / Feature request
 If you encounters issues or a feature you would expect is not part of DTrsiv functions available, please go to the [DTrsiv Github repository](https://github.com/YoannPa/DTrsiv) click on the tab **Issues** and create an issue.  
