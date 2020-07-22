@@ -43,8 +43,9 @@ The DTrsiv functions should be available in your environment.
 * `dt.rm.dup()` removes duplicated columns based on their content (not on their names).  
 * `dt.int64tochar()` converts columns of 'double.integer64' type into 'character' type.  
 * `dt.combine()` combines information using duplicated colnames of a data.table resulting from merge().  
-`dt_chk.R` script contains functions related to checking a R data.table content:
-* `allNA.col()` checks if any column contains exclusively NAs and return a warning if so.  
+
+`dt_chk.R` script contains functions related to checking a R data.table content:  
+* `allNA.col()` checks if any column contains exclusively NAs and returns a warning if so.  
 
 ## Problems ? / I need help !
 For any questions **Not related to bugs or development** you can write me at [y.pageaud@dkfz.de](y.pageaud@dkfz.de).
