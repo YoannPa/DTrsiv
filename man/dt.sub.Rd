@@ -56,9 +56,6 @@ In-place pattern matching and replacement in a data.table.
 dtbl<-data.table(col1 = rev(seq(16)), col2=rep(x = c("hello", "world"), 8))
 dt.sub(DT = dtbl, pattern = "hello", replacement = "goodbye")
 }
-\references{
-
-}
 \author{
 Yoann Pageaud.
 }

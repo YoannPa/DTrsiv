@@ -1,4 +1,3 @@
-##FUNCTIONS
 
 #' In-place pattern matching and replacement in a data.table.
 #'
@@ -32,7 +31,6 @@
 #' @examples
 #' dtbl<-data.table(col1 = rev(seq(16)), col2=rep(x = c("hello", "world"), 8))
 #' dt.sub(DT = dtbl, pattern = "hello", replacement = "goodbye")
-#' @references
 
 dt.sub<-function(DT, pattern, replacement, ignore.case = FALSE, perl = FALSE,
                  fixed = FALSE, useBytes = FALSE){
@@ -80,7 +78,6 @@ dt.sub<-function(DT, pattern, replacement, ignore.case = FALSE, perl = FALSE,
 #'   col2=as.list(rep(x = c("hello", "world"), 8))) #'col2' is of type 'list'.
 #' dt.ls2c(DT = dtbl) #All columns of type 'list' are converted into vectors.
 #' dt.ls2c(DT = dtbl, column.names = "col2") #Only 'col2' is converted into a vector.
-#' @references
 
 dt.ls2c<-function(DT, column.names=NULL){
   #Check if all colnames given are in the data.table
@@ -111,7 +108,6 @@ dt.ls2c<-function(DT, column.names=NULL){
 #' dt.rm.dup(DT = dtbl) #Only 'col1' remains.
 #' #You can ignore specific columns that will not be remove if duplicated:
 #' dt.rm.dup(DT = dtbl,ignore = "col2")
-#' @references
 
 dt.rm.dup<-function(DT, ignore=NULL){
   dup.cols<-names(duplicated(t(DT))[duplicated(t(DT))==TRUE])
@@ -136,8 +132,6 @@ dt.rm.dup<-function(DT, ignore=NULL){
 #' @return A \code{data.table}.
 #' @author Yoann Pageaud.
 #' @export
-#' @examples
-#' @references
 
 dt.int64tochar<-function(DT, column.names=NULL){
   if(any(column.names %in% colnames(DT) == FALSE)){

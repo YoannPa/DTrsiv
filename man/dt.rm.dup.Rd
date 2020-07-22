@@ -26,9 +26,6 @@ dt.rm.dup(DT = dtbl) #Only 'col1' remains.
 #You can ignore specific columns that will not be remove if duplicated:
 dt.rm.dup(DT = dtbl,ignore = "col2")
 }
-\references{
-
-}
 \author{
 Yoann Pageaud.
 }

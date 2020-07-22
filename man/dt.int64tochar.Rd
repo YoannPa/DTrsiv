@@ -22,9 +22,6 @@ A \code{data.table}.
 \description{
 Converts columns of 'double.integer64' type into 'character' type in-place.
 }
-\references{
-
-}
 \author{
 Yoann Pageaud.
 }

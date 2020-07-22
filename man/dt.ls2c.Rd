@@ -28,9 +28,6 @@ dtbl<-data.table(
 dt.ls2c(DT = dtbl) #All columns of type 'list' are converted into vectors.
 dt.ls2c(DT = dtbl, column.names = "col2") #Only 'col2' is converted into a vector.
 }
-\references{
-
-}
 \author{
 Yoann Pageaud.
 }
