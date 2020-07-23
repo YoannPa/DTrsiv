@@ -7,9 +7,9 @@ _**DTrsiv** is a R package containing a collection of R data.table functions ava
 **Contributors:** Everyone who wants is welcome to contribute!  
 **1-** [**DKFZ - Division of Applied Bioinformatics, Germany.**](https://www.dkfz.de/en/applied-bioinformatics/index.php)  
 
-**Version: 0.0.17 (Beta)**  
+**Version: 0.0.19 (Beta)**  
 **R Compatibility: R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"**  
-**Last Update: 22/07/2020**  
+**Last Update: 23/07/2020**  
 
 
 ## Install
@@ -42,7 +42,7 @@ The DTrsiv functions should be available in your environment.
 * `dt.ls2c()` converts data.table columns of type list to a type vector.  
 * `dt.rm.dup()` removes duplicated columns based on their content (not on their names).  
 * `dt.int64tochar()` converts columns of 'double.integer64' type into 'character' type.  
-* `dt.combine()` combines information using duplicated colnames of a data.table resulting from merge().  
+* `dt.combine()` combines values of partially duplicated columns from a data.table into new columns..  
 
 `dt_chk.R` script contains functions related to checking a R data.table content:  
 * `allNA.col()` checks if any column contains exclusively NAs and returns a warning if so.  

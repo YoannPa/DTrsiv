@@ -2,39 +2,60 @@
 % Please edit documentation in R/dt_fun.R
 \name{dt.combine}
 \alias{dt.combine}
-\title{Combines information using duplicated colnames of a data.table resulting from
-merge().}
+\title{Combines values of partially duplicated columns from a data.table into new
+columns.}
 \usage{
-dt.combine(DT)
+dt.combine(DT, col1 = NULL, col2 = NULL, keep.colname = NULL)
 }
 \arguments{
-\item{DT}{A \code{data.table} resulting from a merge() operation. Partially
-duplicated columns (some values are duplicated at some position of
-columns, while at other positions NA values are present in only one
-of the columns) are automatically detected using their colnames
-suffixes '.x' and '.y', and combined into new columns (thus
-reducing the amount of missing values). original duplicated columns
-are then removed.}
+\item{DT}{A \code{data.table} resulting from a merge() operation.
+By default, partially duplicated columns (some values are
+duplicated at some position of columns, while at other
+positions NAs are present in only one of the columns) are
+automatically detected using their colnames suffixes '.x'
+and '.y', and combined into new columns (thus, reducing
+the amount of missing values). Original duplicated
+columns are then removed.}
+
+\item{col1}{A \code{character} specifying a data.table column name
+that you suspect to be the partial duplicate from the
+column col2. If col1 is NULL, dt.combine() will look for
+duplicated columns (Default: col1 = NULL).}
+
+\item{col2}{A \code{character} specifying a data.table column name
+that you suspect to be the partial duplicate from the
+column col1. If col2 is NULL, dt.combine() will look for
+duplicated columns (Default: col2 = NULL).}
+
+\item{keep.colname}{An \code{integer} equals to 1, or 2, or NULL. If equals
+to 1, the resulting combined column will be named after
+'col1'. If equals to 2, the resulting combined column
+will be named after 'col2'. If NULL, keep.colname is not
+used for the naming of the resulting combined column
+(Default: keep.colname = NULL).}
 }
 \value{
 A \code{data.table} with duplicated columns removed, and resulting
         combined columns appended on the right.
 }
 \description{
-Combines information using duplicated colnames of a data.table resulting from
-merge().
+Combines values of partially duplicated columns from a data.table into new
+columns.
 }
 \examples{
 dtbl1<-data.table(col1 = rev(seq(16)),
                   col2=c(rep(x = c("hello", "world"), 4), rep(NA, 8)))
-dtbl2<-data.table(col1 = rev(seq(16)), col2=rep(x = c("hello", "world"), 8))
-#'dtbl1' is missing values in 'col2'.
+dtbl2<-data.table(col1 = rev(seq(16)),
+                  col2=c(rep(NA, 4), rep(x = c("hello", "world"), 6)))
+#'dtbl1' and 'dtbl2' are both missing different values in 'col2'.
 
 dtbl.mrg<-merge(x = dtbl1, y = dtbl2, by = "col1")
 #The colname of the 2nd column of 'dtbl1' and 'dtbl2' is the same.
 #merge() appends '.x' and '.y' respectively to 'col2' in 'dtbl1' and 'dtbl2'.
-#Is 'col2.y' partially duplicated from 'col2.x'?
-dt.combine(dtbl.mrg) #Yes! 'col2.x' and 'col2.y' combined into 'col2'.
+
+#Are 'col2.y' and 'col2.x' partially duplicated ?
+dt.combine(dtbl.mrg) #Yes! 'col2.x' and 'col2.y' have been combined into
+'col2'.
 }
 \references{
 
