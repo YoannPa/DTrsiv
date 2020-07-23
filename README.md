@@ -42,7 +42,7 @@ The DTrsiv functions should be available in your environment.
 * `dt.ls2c()` converts data.table columns of type list to a type vector.  
 * `dt.rm.dup()` removes duplicated columns based on their content (not on their names).  
 * `dt.int64tochar()` converts columns of 'double.integer64' type into 'character' type.  
-* `dt.combine()` combines values of partially duplicated columns from a data.table into new columns..  
+* `dt.combine()` combines values of partially duplicated columns from a data.table into new columns.  
 
 `dt_chk.R` script contains functions related to checking a R data.table content:  
 * `allNA.col()` checks if any column contains exclusively NAs and returns a warning if so.  
