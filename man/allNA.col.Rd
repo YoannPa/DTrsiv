@@ -2,7 +2,7 @@
 % Please edit documentation in R/dt_chk.R
 \name{allNA.col}
 \alias{allNA.col}
-\title{Check if any column contains exclusively NAs.}
+\title{Check if any column contains exclusively NAs and returns colnames if any.}
 \usage{
 allNA.col(data)
 }
@@ -10,11 +10,12 @@ allNA.col(data)
 \item{data}{An \code{array}, a \code{dataframe} or a \code{matrix}.}
 }
 \value{
-A \code{logical}, TRUE if the array has at least 1 column contaning
-        exclusively NAs, FALSE if it has none.
+A \code{list} with 'fullNA.col' containing the column names that contain
+        exclusively NAs, and 'is.fullNA' a logical TRUE if the array has at
+        least 1 column contaning exclusively NAs, FALSE if it has none.
 }
 \description{
-Check if any column contains exclusively NAs.
+Check if any column contains exclusively NAs and returns colnames if any.
 }
 \author{
 Yoann Pageaud.
