@@ -7,9 +7,9 @@ _**DTrsiv** is a R package containing a collection of R data.table functions ava
 **Contributors:** Everyone who wants is welcome to contribute!  
 **1-** [**DKFZ - Division of Applied Bioinformatics, Germany.**](https://www.dkfz.de/en/applied-bioinformatics/index.php)  
 
-**Version: 0.0.21 (Beta)**  
+**Version: 0.0.22 (Beta)**  
 **R Compatibility: R version 3.6.3 (2020-02-29) -- "Holding the Windsock"**  
-**Last Update: 28/07/2020**  
+**Last Update: 03/08/2020**  
 
 ## Install
 
@@ -45,6 +45,7 @@ The DTrsiv functions should be available in your environment.
 
 `dt_chk.R` script contains functions related to checking a R data.table content:  
 * `allNA.col()` checks if any column contains exclusively NAs and returns their names if any with a warning.  
+* `best.merged.dt()` looks for the best merging operation(s) between two data.tables trying a set of columns from the second one.  
 
 ## Problems ? / I need help !
 For any questions **Not related to bugs or development** you can write me at [y.pageaud@dkfz.de](y.pageaud@dkfz.de).
