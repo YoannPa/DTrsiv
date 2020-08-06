@@ -168,39 +168,51 @@ dt.int64tochar<-function(DT, column.names=NULL){
 #' @author Yoann Pageaud.
 #' @keywords internal
 
-dt.combination<-function(DT, cols, mrg.col, keep.colname = NULL){
-  DT.comp<-DT[, cols, with=FALSE]
+dt.combination <- function(DT, cols, mrg.col, keep.colname = NULL){
+  DT.comp <- DT[, cols, with = FALSE]
   #Add index col
-  DT.comp<-cbind(idx.row = seq(nrow(DT.comp)), DT.comp)
+  DT.comp <- cbind(idx.row = seq(nrow(DT.comp)), DT.comp)
   #Check if all non-missing data are the same
-  DT.val<-DT.comp[complete.cases(DT.comp)]
+  DT.val <- DT.comp[complete.cases(DT.comp)]
   if(length(duplicated(t(DT.val))[duplicated(t(DT.val)) == TRUE]) ==
      ncol(DT.comp)-2){
-    #Get rows containing at least one NA
-    DT.na<-DT.comp[!complete.cases(DT.comp)]
-    #Remove NAs with leading and trailing whitespaces
-    res<-trimws(
-      gsub(pattern = "[^a-zA-Z0-9]*NA[^a-zA-Z0-9]*", replacement = " ",
-           x = DT.na[, do.call(what=paste, DT.na[,-1,])]))
-    #Replace empty strings by NAs
-    res<-sub(pattern = "^$", replacement = NA, x = res)
-    #Split non-NA values if any
-    res<-strsplit(x = res, split = " ")
-    #Check if value unique for each row, and length of unique value is 1 for
-    # all rows
-    is.unique <- lapply(X = res, FUN = unique)
-    if(unique(lapply(X = is.unique, FUN = length)) == 1){
-      DT.new<-rbind(DT.val[,c(1,2),], data.table(
-        DT.na$idx.row, unlist(is.unique)), use.names = FALSE)
-      #Re-order rows following index
-      DT.new<-DT.new[order(idx.row)][,2]
+    #Check if some rows contain at least one NA
+    DT.na <- DT.comp[!complete.cases(DT.comp)]
+    if(nrow(DT.na) > 0){
+      #Remove NAs with leading and trailing whitespaces
+      res <- trimws(
+        gsub(pattern = "[^a-zA-Z0-9]*NA[^a-zA-Z0-9]*", replacement = " ",
+             x = DT.na[, do.call(what=paste, DT.na[,-1,])]))
+      #Replace empty strings by NAs
+      res <- sub(pattern = "^$", replacement = NA, x = res)
+      #Split non-NA values if any
+      res <- strsplit(x = res, split = " ")
+      #Check if value unique for each row, and length of unique value is 1 for
+      # all rows
+      is.unique <- lapply(X = res, FUN = unique)
+      if(unique(lapply(X = is.unique, FUN = length)) == 1){
+        DT.new <- rbind(DT.val[, c(1,2),], data.table(
+          DT.na$idx.row, unlist(is.unique)), use.names = FALSE)
+        #Re-order rows following index
+        DT.new <- DT.new[order(idx.row)][, 2]
+        if(is.null(keep.colname)){
+          colnames(DT.new) <- mrg.col
+        } else if(keep.colname == 1){
+          colnames(DT.new) <- cols[1]
+        } else if(keep.colname == 2){
+          colnames(DT.new) <- cols[2]
+        } else { stop("Unsupported value for 'keep.colname'.") }
+        DT.new
+      }
+    } else { #All values are the same and there is no NA between columns
+      DT.new <- DT.val[, 2]
       if(is.null(keep.colname)){
-        colnames(DT.new)<-mrg.col
+        colnames(DT.new) <- mrg.col
       } else if(keep.colname == 1){
-        colnames(DT.new)<-cols[1]
+        colnames(DT.new) <- cols[1]
       } else if(keep.colname == 2){
-        colnames(DT.new)<-cols[2]
-      } else {stop("Unsupported value for 'keep.colname'.")}
+        colnames(DT.new) <- cols[2]
+      } else { stop("Unsupported value for 'keep.colname'.") }
       DT.new
     }
   } else { stop("Not all partially duplicated columns are equals.") }
