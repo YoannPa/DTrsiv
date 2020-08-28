@@ -130,7 +130,7 @@ dt.rm.dup <- function(DT, ignore = NULL){
 #' @examples
 
 dt.rm.allNA <- function(DT, ignore = NULL){
-  na.cols <- suppressWarnings(allNA.col(data = OV_Specimen)$fullNA.col)
+  na.cols <- suppressWarnings(allNA.col(data = DT)$fullNA.col)
   if(length(na.cols) != 0){
     DT <- DT[, -c(na.cols[!na.cols %in% ignore]), with = FALSE]
   } else {
