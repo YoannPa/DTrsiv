@@ -1,7 +1,7 @@
 Package: DTrsiv
 Type: Package
-Title: Collection of R data.table functions to easily clean data
-Version: 0.0.8
+Title: R data.table functions to easily clean data
+Version: 0.0.24
 Author: Yoann Pageaud
 Maintainer: Yoann Pageaud <y.pageaud@dkfz.de>
 Description: 
@@ -10,5 +10,4 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0
 Depends: data.table
-Imports:
-	data.table
+Imports: data.table

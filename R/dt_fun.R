@@ -93,9 +93,9 @@ dt.ls2c<-function(DT, column.names=NULL){
 }
 
 
-#' Removes duplicated column content in a data.table.
+#' Removes duplicated column content from a data.table.
 #'
-#' @param DT A \code{data.table}.
+#' @param DT     A \code{data.table}.
 #' @param ignore A \code{character} or \code{integer} vector specifying columns
 #'               that should be ignored during duplication removal.
 #' @return A \code{data.table}.
@@ -109,16 +109,35 @@ dt.ls2c<-function(DT, column.names=NULL){
 #' #You can ignore specific columns that will not be remove if duplicated:
 #' dt.rm.dup(DT = dtbl,ignore = "col2")
 
-dt.rm.dup<-function(DT, ignore=NULL){
-  dup.cols<-names(duplicated(t(DT))[duplicated(t(DT))==TRUE])
-  if(length(dup.cols)!=0){
-    DT<-DT[,-c(dup.cols[!dup.cols %in% ignore]), with=FALSE]
+dt.rm.dup <- function(DT, ignore = NULL){
+  dup.cols <- names(duplicated(t(DT))[duplicated(t(DT)) == TRUE])
+  if(length(dup.cols) != 0){
+    DT <- DT[, -c(dup.cols[!dup.cols %in% ignore]), with = FALSE]
   } else {
     warning("No duplicated column content found in data.table object.")
   }
   return(DT)
 }
 
+#' Removes columns exclusively containing NAs from a data.table.
+#'
+#' @param DT     A \code{data.table}.
+#' @param ignore A \code{character} or \code{integer} vector specifying columns
+#'               that should be ignored during duplication removal.
+#' @return A \code{data.table}.
+#' @author Yoann Pageaud.
+#' @export
+#' @examples
+
+dt.rm.allNA <- function(DT, ignore = NULL){
+  na.cols <- suppressWarnings(allNA.col(data = OV_Specimen)$fullNA.col)
+  if(length(na.cols) != 0){
+    DT <- DT[, -c(na.cols[!na.cols %in% ignore]), with = FALSE]
+  } else {
+    warning("No column exclusively containing NAs found in data.table object.")
+  }
+  return(DT)
+}
 
 #' Converts columns of 'double.integer64' type into 'character' type in-place.
 #'

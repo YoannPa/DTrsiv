@@ -7,9 +7,9 @@ _**DTrsiv** is a R package containing a collection of R data.table functions ava
 **Contributors:** Everyone who wants is welcome to contribute!  
 **1-** [**DKFZ - Division of Applied Bioinformatics, Germany.**](https://www.dkfz.de/en/applied-bioinformatics/index.php)  
 
-**Version: 0.0.22 (Beta)**  
+**Version: 0.0.24 (Beta)**  
 **R Compatibility: R version 3.6.3 (2020-02-29) -- "Holding the Windsock"**  
-**Last Update: 03/08/2020**  
+**Last Update: 28/08/2020**  
 
 ## Install
 
@@ -40,6 +40,7 @@ The DTrsiv functions should be available in your environment.
 * `dt.sub()` for pattern matching and substitution applied on data.table object column-wise. It first identifies the columns containing any occurence matching the pattern and then applies the substitution considering only columns where the pattern matched, thus shortening execution time on data.table with many columns. It supports columns of type list.  
 * `dt.ls2c()` converts data.table columns of type list to a type vector.  
 * `dt.rm.dup()` removes duplicated columns based on their content (not on their names).  
+* `dt.rm.allNA()` removes columns exclusively containing NAs from a data.table.  
 * `dt.int64tochar()` converts columns of 'double.integer64' type into 'character' type.  
 * `dt.combine()` combines values of partially duplicated columns from a data.table into new columns.  
 

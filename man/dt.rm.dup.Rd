@@ -2,7 +2,7 @@
 % Please edit documentation in R/dt_fun.R
 \name{dt.rm.dup}
 \alias{dt.rm.dup}
-\title{Removes duplicated column content in a data.table.}
+\title{Removes duplicated column content from a data.table.}
 \usage{
 dt.rm.dup(DT, ignore = NULL)
 }
@@ -16,7 +16,7 @@ that should be ignored during duplication removal.}
 A \code{data.table}.
 }
 \description{
-Removes duplicated column content in a data.table.
+Removes duplicated column content from a data.table.
 }
 \examples{
 dtbl<-data.table(
