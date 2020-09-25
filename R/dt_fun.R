@@ -32,28 +32,28 @@
 #' dtbl<-data.table(col1 = rev(seq(16)), col2=rep(x = c("hello", "world"), 8))
 #' dt.sub(DT = dtbl, pattern = "hello", replacement = "goodbye")
 
-dt.sub<-function(DT, pattern, replacement, ignore.case = FALSE, perl = FALSE,
+dt.sub <- function(DT, pattern, replacement, ignore.case = FALSE, perl = FALSE,
                  fixed = FALSE, useBytes = FALSE){
-  col.blck<-DT[, .(lapply(.SD, grepl, pattern=pattern, ignore.case=ignore.case,
-                          perl = perl, fixed = fixed, useBytes = useBytes),
-                   lapply(.SD, typeof),colnames(DT))][, .(lapply(V1,any),V2,V3)
-                                                      ][V1==TRUE,c("V3","V2")]
+  col.blck <- DT[, .(lapply(
+    X = .SD, FUN = grepl, pattern = pattern, ignore.case = ignore.case,
+    perl = perl, fixed = fixed, useBytes = useBytes),
+    lapply(X = .SD, FUN = typeof), colnames(DT))][, .(
+      lapply(X = V1, FUN = any), V2, V3)][V1 == TRUE, c("V3", "V2")]
   if(nrow(col.blck) != 0){
     #If column of type list
-    if(nrow(col.blck[V2=="list"]) != 0){
-      DT[, (col.blck[V2=="list"]$V3) := lapply(
-        .SD, FUN = function(i){
-          lapply(X = i, gsub, pattern = pattern, replacement = replacement,
-                 ignore.case=ignore.case, perl = perl, fixed = fixed,
+    if(nrow(col.blck[V2 == "list"]) != 0){
+      DT[, (col.blck[V2 == "list"]$V3) := lapply(X = .SD, FUN = function(i){
+        lapply(X = i, FUN = gsub, pattern = pattern, replacement = replacement,
+               ignore.case = ignore.case, perl = perl, fixed = fixed,
                  useBytes = useBytes)
-        }), .SDcols=col.blck[V2=="list"]$V3]
+        }), .SDcols = col.blck[V2 == "list"]$V3]
     }
     #Any other type of column
     if(nrow(col.blck[!V2 %in% "list"]) != 0){
-      DT[,(col.blck[!V2 %in% "list"]$V3) := lapply(
-        .SD,gsub, pattern = pattern, replacement = replacement,
-        ignore.case=ignore.case, perl = perl, fixed = fixed, useBytes=useBytes),
-        .SDcols=col.blck[!V2 %in% "list"]$V3]
+      DT[, (col.blck[!V2 %in% "list"]$V3) := lapply(
+        X = .SD, FUN = gsub, pattern = pattern, replacement = replacement,
+        ignore.case = ignore.case, perl = perl, fixed = fixed,
+        useBytes = useBytes), .SDcols = col.blck[!V2 %in% "list"]$V3]
     }
   } else {
     warning("Pattern not found in data.table object.")
@@ -79,7 +79,7 @@ dt.sub<-function(DT, pattern, replacement, ignore.case = FALSE, perl = FALSE,
 #' dt.ls2c(DT = dtbl) #All columns of type 'list' are converted into vectors.
 #' dt.ls2c(DT = dtbl, column.names = "col2") #Only 'col2' is converted into a vector.
 
-dt.ls2c<-function(DT, column.names=NULL){
+dt.ls2c <- function(DT, column.names = NULL){
   #Check if all colnames given are in the data.table
   if(any(column.names %in% colnames(DT) == FALSE)){
     stop("Some values in 'colnames' do not match colnames in the data.table.")
@@ -87,7 +87,8 @@ dt.ls2c<-function(DT, column.names=NULL){
     if(is.null(column.names)){
       DT[, names(DT) := lapply(X = .SD, FUN = unlist)]
     } else {
-      DT[,(column.names) := lapply(X = .SD, FUN = unlist), .SDcols=column.names]
+      DT[, (column.names) := lapply(X = .SD, FUN = unlist),
+         .SDcols = column.names]
     }
   }
 }
@@ -127,7 +128,6 @@ dt.rm.dup <- function(DT, ignore = NULL){
 #' @return A \code{data.table}.
 #' @author Yoann Pageaud.
 #' @export
-#' @examples
 
 dt.rm.allNA <- function(DT, ignore = NULL){
   na.cols <- suppressWarnings(allNA.col(data = DT)$fullNA.col)
@@ -152,7 +152,7 @@ dt.rm.allNA <- function(DT, ignore = NULL){
 #' @author Yoann Pageaud.
 #' @export
 
-dt.int64tochar<-function(DT, column.names=NULL){
+dt.int64tochar <- function(DT, column.names = NULL){
   if(any(column.names %in% colnames(DT) == FALSE)){
     stop("Some values in 'colnames' do not match colnames in the data.table.")
   } else {
@@ -162,7 +162,7 @@ dt.int64tochar<-function(DT, column.names=NULL){
     } else {
       DT[,(column.names) := lapply(X = .SD, FUN = function(i){
         if(typeof(i) == "double"){ as.character(as.numeric(i)) } else { i } }),
-        .SDcols=column.names]
+        .SDcols = column.names]
     }
   }
 }
@@ -210,7 +210,7 @@ dt.combination <- function(DT, cols, mrg.col, keep.colname = NULL){
       # all rows
       is.unique <- lapply(X = res, FUN = unique)
       if(unique(lapply(X = is.unique, FUN = length)) == 1){
-        DT.new <- rbind(DT.val[, c(1,2),], data.table(
+        DT.new <- rbind(DT.val[, c(1, 2), ], data.table(
           DT.na$idx.row, unlist(is.unique)), use.names = FALSE)
         #Re-order rows following index
         DT.new <- DT.new[order(idx.row)][, 2]
@@ -286,16 +286,16 @@ dt.combination <- function(DT, cols, mrg.col, keep.colname = NULL){
 dt.combine<-function(DT, col1 = NULL, col2 = NULL, keep.colname = NULL){
   if(is.null(col1) | is.null(col2)){ #If no columns provided scan the data.table
     #Search & list potential duplicated columns
-    cnames<-strsplit(x = names(DT), split = "\\.[xy]")
-    dupcol<-unique(cnames[duplicated(cnames) | duplicated(
+    cnames <- strsplit(x = names(DT), split = "\\.[xy]")
+    dupcol <- unique(cnames[duplicated(cnames) | duplicated(
       cnames, fromLast = TRUE)])
-    ls.dt<-lapply(X = dupcol, FUN = function(i){
+    ls.dt <- lapply(X = dupcol, FUN = function(i){
       dt.combination(
         DT = DT, cols = names(DT)[grepl(pattern = i, x = names(DT))],
         mrg.col = i, keep.colname = keep.colname)
     })
-    DT.new<-do.call(cbind, ls.dt)
-    colrm<-names(DT)[duplicated(cnames) | duplicated(cnames, fromLast=TRUE)]
+    DT.new <- do.call(cbind, ls.dt)
+    colrm <- names(DT)[duplicated(cnames) | duplicated(cnames, fromLast = TRUE)]
   } else {
     #Check if merged column name can take rootname of the 2 input columns
     if(length(unique(strsplit(x = c(col1, col2), split = "\\.[xy]"))) == 1){
@@ -307,7 +307,7 @@ dt.combine<-function(DT, col1 = NULL, col2 = NULL, keep.colname = NULL){
     DT.new <- dt.combination(
       DT = DT, cols = c(col1, col2), mrg.col = mrgcolname,
       keep.colname = keep.colname)
-    colrm<-c(col1, col2)
+    colrm <- c(col1, col2)
   }
   return(cbind(DT[, -colrm, with = FALSE], DT.new))
 }
