@@ -199,9 +199,13 @@ dt.combination <- function(DT, cols, mrg.col, keep.colname = NULL){
     DT.na <- DT.comp[!complete.cases(DT.comp)]
     if(nrow(DT.na) > 0){
       #Remove NAs with leading and trailing whitespaces
+      # res <- trimws(
+      #   gsub(pattern = "[^a-zA-Z0-9\\-]*NA[^a-zA-Z0-9\\-]*", replacement = " ",
+      #        x = DT.na[, do.call(what = paste, DT.na[, -1, ])]))
       res <- trimws(
-        gsub(pattern = "[^a-zA-Z0-9]*NA[^a-zA-Z0-9]*", replacement = " ",
-             x = DT.na[, do.call(what=paste, DT.na[,-1,])]))
+        gsub(pattern = "[^a-zA-Z0-9\\-]NA|NA[^a-zA-Z0-9\\-]|NA\\sNA",
+             replacement = " ", x = DT.na[, do.call(
+               what = paste, DT.na[, -1, ])]))
       #Replace empty strings by NAs
       res <- sub(pattern = "^$", replacement = NA, x = res)
       #Split non-NA values if any
@@ -283,7 +287,7 @@ dt.combination <- function(DT, cols, mrg.col, keep.colname = NULL){
 #' 'col2'.
 #' @references
 
-dt.combine<-function(DT, col1 = NULL, col2 = NULL, keep.colname = NULL){
+dt.combine <- function(DT, col1 = NULL, col2 = NULL, keep.colname = NULL){
   if(is.null(col1) | is.null(col2)){ #If no columns provided scan the data.table
     #Search & list potential duplicated columns
     cnames <- strsplit(x = names(DT), split = "\\.[xy]")
