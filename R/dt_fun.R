@@ -33,7 +33,7 @@
 #' dt.sub(DT = dtbl, pattern = "hello", replacement = "goodbye")
 
 dt.sub <- function(DT, pattern, replacement, ignore.case = FALSE, perl = FALSE,
-                 fixed = FALSE, useBytes = FALSE){
+                   fixed = FALSE, useBytes = FALSE){
   col.blck <- DT[, .(lapply(
     X = .SD, FUN = grepl, pattern = pattern, ignore.case = ignore.case,
     perl = perl, fixed = fixed, useBytes = useBytes),
@@ -45,8 +45,8 @@ dt.sub <- function(DT, pattern, replacement, ignore.case = FALSE, perl = FALSE,
       DT[, (col.blck[V2 == "list"]$V3) := lapply(X = .SD, FUN = function(i){
         lapply(X = i, FUN = gsub, pattern = pattern, replacement = replacement,
                ignore.case = ignore.case, perl = perl, fixed = fixed,
-                 useBytes = useBytes)
-        }), .SDcols = col.blck[V2 == "list"]$V3]
+               useBytes = useBytes)
+      }), .SDcols = col.blck[V2 == "list"]$V3]
     }
     #Any other type of column
     if(nrow(col.blck[!V2 %in% "list"]) != 0){
@@ -170,11 +170,11 @@ dt.int64tochar <- function(DT, column.names = NULL){
 
 #' Combines 2 columns from a datatable into a 1 column data.table.
 #'
-#' @param DT      A \code{data.table}.
-#' @param cols    A \code{character} vector of length 2 matching columns names
-#'                of DT.
-#' @param mrg.col A \code{character} to be used to name the resulting combined
-#'                column.
+#' @param DT           A \code{data.table}.
+#' @param cols         A \code{character} vector of length 2 matching columns
+#'                     names of DT.
+#' @param mrg.col      A \code{character} to be used to name the resulting
+#'                     combined column.
 #' @param keep.colname An \code{integer} equals to 1, or 2, or NULL. If equals
 #'                     to 1, the resulting combined column will be named after
 #'                     the first column in 'cols'. If equals to 2, the resulting
@@ -182,12 +182,22 @@ dt.int64tochar <- function(DT, column.names = NULL){
 #'                     'cols'. If NULL, keep.colname is not used for the naming
 #'                     of the resulting combined column
 #'                     (Default: keep.colname = NULL).
+#' @param check.len    A \code{logical} specifying whether the length of each
+#'                     values obtained in the resulting combined column should
+#'                     be checked (Default : check.len = TRUE) or not
+#'                     (check.len = FALSE). If check.len = TRUE and the length
+#'                     of any value is superior to 1, an error message will be
+#'                     returned. It can be useful sometimes to set check.len to
+#'                     FALSE, especially if you know that some values in the
+#'                     columns you want to combine contain whitespaces. In such
+#'                     case, it is advised to set check.len = TRUE.
 #' @return A \code{data.table} with 1 column resulting from the merging of the
 #'         partially duplicated columns of the input.
 #' @author Yoann Pageaud.
 #' @keywords internal
 
-dt.combination <- function(DT, cols, mrg.col, keep.colname = NULL){
+dt.combination <- function(
+  DT, cols, mrg.col, keep.colname = NULL, check.len = TRUE){
   DT.comp <- DT[, cols, with = FALSE]
   #Add index col
   DT.comp <- cbind(idx.row = seq(nrow(DT.comp)), DT.comp)
@@ -202,31 +212,41 @@ dt.combination <- function(DT, cols, mrg.col, keep.colname = NULL){
       # res <- trimws(
       #   gsub(pattern = "[^a-zA-Z0-9\\-]*NA[^a-zA-Z0-9\\-]*", replacement = " ",
       #        x = DT.na[, do.call(what = paste, DT.na[, -1, ])]))
-      res <- trimws(
-        gsub(pattern = "[^a-zA-Z0-9\\-]NA|NA[^a-zA-Z0-9\\-]|NA\\sNA",
-             replacement = " ", x = DT.na[, do.call(
-               what = paste, DT.na[, -1, ])]))
+
+      # res <- trimws(
+      #   gsub(pattern = "[^a-zA-Z0-9\\-]NA|NA[^a-zA-Z0-9\\-]|NA\\sNA",
+      #        replacement = " ", x = DT.na[, do.call(
+      #          what = paste, DT.na[, -1, ])]))
+
+      res <- trimws(gsub(pattern = paste(
+        "^NA[^a-zA-Z0-9\\-]", "[^a-zA-Z0-9\\-]NA$",
+        "[^a-zA-Z0-9\\-]NA\\sNA[^a-zA-Z0-9\\-]", sep = "|"), replacement = " ",
+        x = DT.na[, do.call(what = paste, DT.na[, -1, ])]))
+
       #Replace empty strings by NAs
       res <- sub(pattern = "^$", replacement = NA, x = res)
-      #Split non-NA values if any
-      res <- strsplit(x = res, split = " ")
-      #Check if value unique for each row, and length of unique value is 1 for
-      # all rows
-      is.unique <- lapply(X = res, FUN = unique)
-      if(unique(lapply(X = is.unique, FUN = length)) == 1){
+      if(check.len){
+        #Split non-NA values if any
+        res <- strsplit(x = res, split = " ")
+        #Check if value unique for each row, and length of unique value is 1 for
+        # all rows
+        is.unique <- lapply(X = res, FUN = unique)
+        if(length(unique(lapply(X = is.unique, FUN = length))) == 1
+           & unique(lapply(X = is.unique, FUN = length)) == 1){
+          DT.new <- rbind(DT.val[, c(1, 2), ], data.table(
+            DT.na$idx.row, unlist(is.unique)), use.names = FALSE)
+        } else { stop("More than 1 value per row in the combined column.") }
+      } else {
         DT.new <- rbind(DT.val[, c(1, 2), ], data.table(
-          DT.na$idx.row, unlist(is.unique)), use.names = FALSE)
-        #Re-order rows following index
-        DT.new <- DT.new[order(idx.row)][, 2]
-        if(is.null(keep.colname)){
-          colnames(DT.new) <- mrg.col
-        } else if(keep.colname == 1){
-          colnames(DT.new) <- cols[1]
-        } else if(keep.colname == 2){
-          colnames(DT.new) <- cols[2]
-        } else { stop("Unsupported value for 'keep.colname'.") }
-        DT.new
+          DT.na$idx.row, res), use.names = FALSE)
       }
+      #Re-order rows following index
+      DT.new <- DT.new[order(idx.row)][, 2]
+      if(is.null(keep.colname)){ colnames(DT.new) <- mrg.col
+      } else if(keep.colname == 1){ colnames(DT.new) <- cols[1]
+      } else if(keep.colname == 2){ colnames(DT.new) <- cols[2]
+      } else { stop("Unsupported value for 'keep.colname'.") }
+      return(DT.new)
     } else { #All values are the same and there is no NA between columns
       DT.new <- DT.val[, 2]
       if(is.null(keep.colname)){
@@ -236,7 +256,7 @@ dt.combination <- function(DT, cols, mrg.col, keep.colname = NULL){
       } else if(keep.colname == 2){
         colnames(DT.new) <- cols[2]
       } else { stop("Unsupported value for 'keep.colname'.") }
-      DT.new
+      return(DT.new)
     }
   } else { stop("Not all partially duplicated columns are equals.") }
 }
@@ -287,7 +307,8 @@ dt.combination <- function(DT, cols, mrg.col, keep.colname = NULL){
 #' 'col2'.
 #' @references
 
-dt.combine <- function(DT, col1 = NULL, col2 = NULL, keep.colname = NULL){
+dt.combine <- function(
+  DT, col1 = NULL, col2 = NULL, keep.colname = NULL, check.len = TRUE){
   if(is.null(col1) | is.null(col2)){ #If no columns provided scan the data.table
     #Search & list potential duplicated columns
     cnames <- strsplit(x = names(DT), split = "\\.[xy]")
@@ -296,21 +317,21 @@ dt.combine <- function(DT, col1 = NULL, col2 = NULL, keep.colname = NULL){
     ls.dt <- lapply(X = dupcol, FUN = function(i){
       dt.combination(
         DT = DT, cols = names(DT)[grepl(pattern = i, x = names(DT))],
-        mrg.col = i, keep.colname = keep.colname)
+        mrg.col = i, keep.colname = keep.colname, check.len = check.len)
     })
     DT.new <- do.call(cbind, ls.dt)
     colrm <- names(DT)[duplicated(cnames) | duplicated(cnames, fromLast = TRUE)]
   } else {
     #Check if merged column name can take rootname of the 2 input columns
     if(length(unique(strsplit(x = c(col1, col2), split = "\\.[xy]"))) == 1){
-      mrgcolname <- unlist(unique(strsplit(x = c(col1, col2),
-                                           split = "\\.[xy]")))
+      mrgcolname <- unlist(unique(strsplit(
+        x = c(col1, col2), split = "\\.[xy]")))
     } else {
       mrgcolname <- paste0("comb.", paste0(c(col1, col2), collapse = "_"))
     }
     DT.new <- dt.combination(
       DT = DT, cols = c(col1, col2), mrg.col = mrgcolname,
-      keep.colname = keep.colname)
+      keep.colname = keep.colname, check.len = check.len)
     colrm <- c(col1, col2)
   }
   return(cbind(DT[, -colrm, with = FALSE], DT.new))

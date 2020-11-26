@@ -5,7 +5,7 @@
 \title{Combines values of partially duplicated columns from a data.table into new
 columns.}
 \usage{
-dt.combine(DT, col1 = NULL, col2 = NULL, keep.colname = NULL)
+dt.combine(DT, col1 = NULL, col2 = NULL, keep.colname = NULL, check.len = TRUE)
 }
 \arguments{
 \item{DT}{A \code{data.table} resulting from a merge() operation.

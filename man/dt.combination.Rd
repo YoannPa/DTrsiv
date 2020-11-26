@@ -4,16 +4,16 @@
 \alias{dt.combination}
 \title{Combines 2 columns from a datatable into a 1 column data.table.}
 \usage{
-dt.combination(DT, cols, mrg.col, keep.colname = NULL)
+dt.combination(DT, cols, mrg.col, keep.colname = NULL, check.len = TRUE)
 }
 \arguments{
 \item{DT}{A \code{data.table}.}
 
-\item{cols}{A \code{character} vector of length 2 matching columns names
-of DT.}
+\item{cols}{A \code{character} vector of length 2 matching columns
+names of DT.}
 
-\item{mrg.col}{A \code{character} to be used to name the resulting combined
-column.}
+\item{mrg.col}{A \code{character} to be used to name the resulting
+combined column.}
 
 \item{keep.colname}{An \code{integer} equals to 1, or 2, or NULL. If equals
 to 1, the resulting combined column will be named after
@@ -22,6 +22,16 @@ combined column will be named after the second column in
 'cols'. If NULL, keep.colname is not used for the naming
 of the resulting combined column
 (Default: keep.colname = NULL).}
+
+\item{check.len}{A \code{logical} specifying whether the length of each
+values obtained in the resulting combined column should
+be checked (Default : check.len = TRUE) or not
+(check.len = FALSE). If check.len = TRUE and the length
+of any value is superior to 1, an error message will be
+returned. It can be useful sometimes to set check.len to
+FALSE, especially if you know that some values in the
+columns you want to combine contain whitespaces. In such
+case, it is advised to set check.len = TRUE.}
 }
 \value{
 A \code{data.table} with 1 column resulting from the merging of the
