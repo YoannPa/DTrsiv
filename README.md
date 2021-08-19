@@ -1,12 +1,8 @@
 # DTrsiv <img src="img/DTrsiv_hexsticker-ai.png" align="right" height="140" />  
 
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/YoannPa/DTrsiv)
-![GitHub last commit](https://img.shields.io/github/last-commit/YoannPa/DTrsiv)
-![GitHub R package version](https://img.shields.io/github/r-package/v/YoannPa/DTrsiv)
 ![GitHub repo size](https://img.shields.io/github/repo-size/YoannPa/DTrsiv)
 ![GitHub issues](https://img.shields.io/github/issues-raw/YoannPa/DTrsiv)
-![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/YoannPa/DTrsiv)
-![GitHub](https://img.shields.io/github/license/YoannPa/DTrsiv)  
+![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/YoannPa/DTrsiv)  
 
 _**DTrsiv** is a R package containing a collection of R data.table functions available to quickly and easily clean your data._  
 **Everyone who wants is welcome to contribute!**
@@ -15,9 +11,10 @@ _**DTrsiv** is a R package containing a collection of R data.table functions ava
 **Contributors:** Everyone who wants is welcome to contribute!  
 **1-** [**DKFZ - Division of Applied Bioinformatics, Germany.**](https://www.dkfz.de/en/applied-bioinformatics/index.php)  
 
-**Version: 0.0.24 (Beta)**  
-**R Compatibility: R version 3.6.3 (2020-02-29) -- "Holding the Windsock"**  
-**Last Update: 28/08/2020**  
+![GitHub R package version](https://img.shields.io/github/r-package/v/YoannPa/DTrsiv?label=Package%20version&logo=RStudio&logoColor=white&style=for-the-badge)  
+<img src="https://img.shields.io/static/v1?label=compatibility&message=3.6.3%20(2020-02-29)%20--%20%22Holding%20the%20Windsock%22&color=blue&logo=R&logoColor=white&style=for-the-badge" />  
+![GitHub last commit](https://img.shields.io/github/last-commit/YoannPa/Dtrsiv?logo=git&style=for-the-badge)  
+![GitHub](https://img.shields.io/github/license/YoannPa/DTrsiv?color=brightgreen&style=for-the-badge)  
 
 ## Install
 
@@ -66,7 +63,4 @@ If you encounters issues or a feature you would expect is not part of DTrsiv fun
 1. Introduction to data.table: [https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html)  
 2. Official R data.table Github repository: [https://github.com/Rdatatable/data.table](https://github.com/Rdatatable/data.table)  
 3. [_By-Group Processing, the R data.table and the Power of Open Source_ (22.02.2011) - Steve Miller](https://www.information-management.com/opinion/by-group-processing-the-r-datatable-and-the-power-of-open-source)  
-
-## Licence
-The repository DTrsiv is currently under the GPL-3.0 licence.  
 
