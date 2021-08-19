@@ -287,15 +287,24 @@ dt.combination <- function(
 #'                     will be named after 'col2'. If NULL, keep.colname is not
 #'                     used for the naming of the resulting combined column
 #'                     (Default: keep.colname = NULL).
+#' @param check.len    A \code{logical} specifying whether the length of each
+#'                     values obtained in the resulting combined column should
+#'                     be checked (Default : check.len = TRUE) or not
+#'                     (check.len = FALSE). If check.len = TRUE and the length
+#'                     of any value is superior to 1, an error message will be
+#'                     returned. It can be useful sometimes to set check.len to
+#'                     FALSE, especially if you know that some values in the
+#'                     columns you want to combine contain whitespaces. In such
+#'                     case, it is advised to set check.len = TRUE.
 #' @return A \code{data.table} with duplicated columns removed, and resulting
 #'         combined columns appended on the right.
 #' @author Yoann Pageaud.
 #' @export
 #' @examples
 #' dtbl1<-data.table(col1 = rev(seq(16)),
-#'                   col2=c(rep(x = c("hello", "world"), 4), rep(NA, 8)))
+#'                   col2 = c(rep(x = c("hello", "world"), 4), rep(NA, 8)))
 #' dtbl2<-data.table(col1 = rev(seq(16)),
-#'                   col2=c(rep(NA, 4), rep(x = c("hello", "world"), 6)))
+#'                   col2 = c(rep(NA, 4), rep(x = c("hello", "world"), 6)))
 #' #'dtbl1' and 'dtbl2' are both missing different values in 'col2'.
 #'
 #' dtbl.mrg<-merge(x = dtbl1, y = dtbl2, by = "col1")

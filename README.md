@@ -1,5 +1,13 @@
 # DTrsiv <img src="img/DTrsiv_hexsticker-ai.png" align="right" height="140" />  
 
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/YoannPa/DTrsiv)
+![GitHub last commit](https://img.shields.io/github/last-commit/YoannPa/DTrsiv)
+![GitHub R package version](https://img.shields.io/github/r-package/v/YoannPa/DTrsiv)
+![GitHub repo size](https://img.shields.io/github/repo-size/YoannPa/DTrsiv)
+![GitHub issues](https://img.shields.io/github/issues-raw/YoannPa/DTrsiv)
+![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/YoannPa/DTrsiv)
+![GitHub](https://img.shields.io/github/license/YoannPa/DTrsiv)  
+
 _**DTrsiv** is a R package containing a collection of R data.table functions available to quickly and easily clean your data._  
 **Everyone who wants is welcome to contribute!**
 
