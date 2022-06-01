@@ -209,15 +209,6 @@ dt.combination <- function(
     DT.na <- DT.comp[!complete.cases(DT.comp)]
     if(nrow(DT.na) > 0){
       #Remove NAs with leading and trailing whitespaces
-      # res <- trimws(
-      #   gsub(pattern = "[^a-zA-Z0-9\\-]*NA[^a-zA-Z0-9\\-]*", replacement = " ",
-      #        x = DT.na[, do.call(what = paste, DT.na[, -1, ])]))
-
-      # res <- trimws(
-      #   gsub(pattern = "[^a-zA-Z0-9\\-]NA|NA[^a-zA-Z0-9\\-]|NA\\sNA",
-      #        replacement = " ", x = DT.na[, do.call(
-      #          what = paste, DT.na[, -1, ])]))
-
       res <- trimws(gsub(pattern = paste(
         "^NA[^a-zA-Z0-9\\-]", "[^a-zA-Z0-9\\-]NA$",
         "[^a-zA-Z0-9\\-]NA\\sNA[^a-zA-Z0-9\\-]", sep = "|"), replacement = " ",
@@ -246,6 +237,11 @@ dt.combination <- function(
       } else if(keep.colname == 1){ colnames(DT.new) <- cols[1]
       } else if(keep.colname == 2){ colnames(DT.new) <- cols[2]
       } else { stop("Unsupported value for 'keep.colname'.") }
+      #Convert remaining "NA" strings into real NAs if any
+      if(isTRUE(unlist(DT.new[, .(lapply(
+        X = .SD, FUN = grepl, pattern = "NA", ignore.case = FALSE, perl = FALSE,
+        fixed = FALSE, useBytes = FALSE))][, .(lapply(X = V1, FUN = any))]))){
+        dt.sub(DT = DT.new, pattern = "NA", replacement = NA) }
       return(DT.new)
     } else { #All values are the same and there is no NA between columns
       DT.new <- DT.val[, 2]
