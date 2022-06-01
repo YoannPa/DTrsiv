@@ -53,22 +53,20 @@ Combines values of partially duplicated columns from a data.table into new
 columns.
 }
 \examples{
-dtbl1<-data.table(col1 = rev(seq(16)),
-                  col2 = c(rep(x = c("hello", "world"), 4), rep(NA, 8)))
-dtbl2<-data.table(col1 = rev(seq(16)),
-                  col2 = c(rep(NA, 4), rep(x = c("hello", "world"), 6)))
+dtbl1 <- data.table(col1 = rev(seq(16)),
+                    col2 = c(rep(x = c("hello", "world"), 4), rep(NA, 8)))
+dtbl2 <- data.table(col1 = rev(seq(16)),
+                    col2 = c(rep(NA, 4), rep(x = c("hello", "world"), 6)))
 #'dtbl1' and 'dtbl2' are both missing different values in 'col2'.
 
-dtbl.mrg<-merge(x = dtbl1, y = dtbl2, by = "col1")
+dtbl.mrg <- merge(x = dtbl1, y = dtbl2, by = "col1")
+dtbl.mrg
 #The colname of the 2nd column of 'dtbl1' and 'dtbl2' is the same.
 #merge() appends '.x' and '.y' respectively to 'col2' in 'dtbl1' and 'dtbl2'.
 
-#Are 'col2.y' and 'col2.x' partially duplicated ?
-dt.combine(dtbl.mrg) #Yes! 'col2.x' and 'col2.y' have been combined into
-'col2'.
-}
-\references{
-
+# Are 'col2.y' and 'col2.x' partially duplicated ?
+dt.combine(dtbl.mrg) # Yes!
+# 'col2.x' and 'col2.y' have been combined into 'col2'.
 }
 \author{
 Yoann Pageaud.
