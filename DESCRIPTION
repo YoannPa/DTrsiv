@@ -1,7 +1,7 @@
 Package: DTrsiv
 Type: Package
 Title: R data.table functions to easily clean data
-Version: 0.0.27
+Version: 0.0.28
 Author: Yoann Pageaud
 Maintainer: Yoann Pageaud <y.pageaud@dkfz.de>
 Description: 

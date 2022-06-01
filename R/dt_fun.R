@@ -222,8 +222,8 @@ dt.combination <- function(
         #Check if value unique for each row, and length of unique value is 1 for
         # all rows
         is.unique <- lapply(X = res, FUN = unique)
-        if(length(unique(lapply(X = is.unique, FUN = length))) == 1
-           & unique(lapply(X = is.unique, FUN = length)) == 1){
+        if(length(unique(lapply(X = is.unique, FUN = length))) == 1 &
+           unique(lapply(X = is.unique, FUN = length)) == 1){
           DT.new <- rbind(DT.val[, c(1, 2), ], data.table(
             DT.na$idx.row, unlist(is.unique)), use.names = FALSE)
         } else { stop("More than 1 value per row in the combined column.") }
@@ -239,9 +239,9 @@ dt.combination <- function(
       } else { stop("Unsupported value for 'keep.colname'.") }
       #Convert remaining "NA" strings into real NAs if any
       if(isTRUE(unlist(DT.new[, .(lapply(
-        X = .SD, FUN = grepl, pattern = "NA", ignore.case = FALSE, perl = FALSE,
+        X = .SD, FUN = grepl, pattern = "^NA$", ignore.case = FALSE, perl = FALSE,
         fixed = FALSE, useBytes = FALSE))][, .(lapply(X = V1, FUN = any))]))){
-        dt.sub(DT = DT.new, pattern = "NA", replacement = NA) }
+        dt.sub(DT = DT.new, pattern = "^NA$", replacement = NA) }
       return(DT.new)
     } else { #All values are the same and there is no NA between columns
       DT.new <- DT.val[, 2]
