@@ -12,7 +12,7 @@ _**DTrsiv** is a R package containing a collection of R data.table functions ava
 **1-** [**DKFZ - Division of Applied Bioinformatics, Germany.**](https://www.dkfz.de/en/applied-bioinformatics/index.php)  
 
 ![GitHub R package version](https://img.shields.io/github/r-package/v/YoannPa/DTrsiv?label=Package%20version&logo=RStudio&logoColor=white&style=for-the-badge)  
-<img src="https://img.shields.io/static/v1?label=compatibility&message=3.6.3%20(2020-02-29)%20--%20%22Holding%20the%20Windsock%22&color=blue&logo=R&logoColor=white&style=for-the-badge" />  
+<img src="https://img.shields.io/static/v1?label=compatibility&message=4.2.0%20(2022--04--22)%20--%20%22Vigorous%20Calisthenics%22&color=blue&logo=R&logoColor=white&style=for-the-badge" />  
 ![GitHub last commit](https://img.shields.io/github/last-commit/YoannPa/Dtrsiv?logo=git&style=for-the-badge)  
 ![GitHub](https://img.shields.io/github/license/YoannPa/DTrsiv?color=brightgreen&style=for-the-badge)  
 
