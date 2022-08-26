@@ -119,7 +119,7 @@ best.merged.dt <- function(
 #' @author Yoann Pageaud.
 #' @export
 
-all.equal.bycol <- function(dt.target, dt.current){
+all_equal_bycol <- function(dt.target, dt.current){
   ls_res <- lapply(X = colnames(dt.target), FUN = function(i){
     all.equal(target = dt.target[[i]], current = dt.current[[i]])
   })
