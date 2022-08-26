@@ -109,3 +109,27 @@ best.merged.dt <- function(
   res <- list("best.merged.dt" = best.match, "merging.results" = list.merged.dt)
   return(res)
 }
+
+#' Applies the all.equal function to each column between 2 data.tables.
+#'
+#' @param dt.target A target \code{data.table}.
+#' @param dt.current Another \code{data.table} to be compared with target.
+#' @return Either TRUE or a \code{list} describing the differences between
+#'         target and current.
+#' @author Yoann Pageaud.
+#' @export
+
+all.equal.bycol <- function(dt.target, dt.current){
+  ls_res <- lapply(X = colnames(dt.target), FUN = function(i){
+    all.equal(target = dt.target[[i]], current = dt.current[[i]])
+  })
+  names(ls_res) <- colnames(dt.target)
+  ls_res <- lapply(X = ls_res, FUN = function(m){
+    if(length(m) == 1){
+      if(!m){ m }
+    } else { paste(m, collapse = " - ") }
+  })
+  ls_res <- ls_res[!sapply(ls_res,is.null)]
+  if(length(ls_res) == 0){ res <- TRUE } else { res <- ls_res }
+  return(res)
+}
