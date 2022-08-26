@@ -111,12 +111,14 @@ dt.ls2c <- function(DT, column.names = NULL){
 #' dt.rm.dup(DT = dtbl,ignore = "col2")
 
 dt.rm.dup <- function(DT, ignore = NULL){
-  dup.cols <- names(duplicated(t(DT))[duplicated(t(DT)) == TRUE])
-  if(length(dup.cols) != 0){
-    DT <- DT[, -c(dup.cols[!dup.cols %in% ignore]), with = FALSE]
-  } else {
-    warning("No duplicated column content found in data.table object.")
+  dup.cols <- which(duplicated(t(DT)))
+  # dup.cols <- names(duplicated(t(DT))[duplicated(t(DT)) == TRUE])
+  if (length(dup.cols) != 0) {
+    col_to_rm <- dup.cols[!names(dup.cols) %in% ignore]
+    DT <- DT[, -..col_to_rm, with = FALSE]
+    # DT <- DT[, -c(dup.cols[!dup.cols %in% ignore]), with = FALSE]
   }
+  else { warning("No duplicated column content found in data.table object.") }
   return(DT)
 }
 
