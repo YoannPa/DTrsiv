@@ -126,10 +126,10 @@ all_equal_bycol <- function(dt.target, dt.current){
   names(ls_res) <- colnames(dt.target)
   ls_res <- lapply(X = ls_res, FUN = function(m){
     if(length(m) == 1){
-      if(!m){ m }
+      if(!isTRUE(m)){ m }
     } else { paste(m, collapse = " - ") }
   })
-  ls_res <- ls_res[!sapply(ls_res,is.null)]
+  ls_res <- ls_res[!sapply(ls_res, is.null)]
   if(length(ls_res) == 0){ res <- TRUE } else { res <- ls_res }
   return(res)
 }
