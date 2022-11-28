@@ -16,29 +16,16 @@ _**DTrsiv** is a R package containing a collection of R data.table functions ava
 ![GitHub last commit](https://img.shields.io/github/last-commit/YoannPa/Dtrsiv?logo=git&style=for-the-badge)  
 ![GitHub](https://img.shields.io/github/license/YoannPa/DTrsiv?color=brightgreen&style=for-the-badge)  
 
-## Install
-
-```bash
-git clone https://github.com/YoannPa/DTrsiv.git
-```
-
-Go to the directory and and open the file 'DTrsiv.Rproj' in RStudio.  
+## Prerequisites
 Install devtools and data.table packages:  
 ```R
 install.packages(pkgs = c("devtools", "data.table"))
 ```
 
-Install DTrsiv:  
+## Install
 ```R
-devtools::install()
+devtools::install_github("YoannPa/DTrsiv")
 ```
-
-Load DTrsiv:
-```R
-library(DTrsiv)
-```
-
-The DTrsiv functions should be available in your environment.
 
 ## Content
 `dt_fun.R` script contains functions related to R data.table formating:  
